@@ -1,13 +1,13 @@
 from jass.agents.agent_random_schieber import AgentRandomSchieber
 from jass.arena.arena import Arena
 
-from MyAgent import MyAgent
+from trump_selection_agent import TrumpSelectionAgent
 
 
 def main(nr_of_games):
     arena = Arena(nr_games_to_play=nr_of_games, save_filename='playtest_games')
     player = AgentRandomSchieber()
-    my_player = MyAgent()
+    my_player = TrumpSelectionAgent()
 
     arena.set_players(my_player, player, my_player, player)
     print('Playing {} games'.format(arena.nr_games_to_play))
@@ -21,4 +21,4 @@ def main(nr_of_games):
     print('Sum Points Team 1: {:.2f})'.format(arena.points_team_1.sum()))
 
 
-main(100)
+main(10000)
