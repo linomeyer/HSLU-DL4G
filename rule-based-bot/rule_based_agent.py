@@ -59,13 +59,16 @@ def check_high_card(valid_card_indices, obs: GameObservation):
 
 
 def check_stabbing(valid_card_indices, obs: GameObservation):
+    """
+    checks if stabbing "stäche" is worth it
+    """
     trump_suit = obs.trump
     points_of_trick = sum(calculate_point_value(card, trump_suit) for card in obs.current_trick if card != -1)
     for card in valid_card_indices:
         card_suit = color_of_card[card]
 
-        # if point value of trick i high enough, determine if "stächen" makes sense
-        if points_of_trick >= 15 and card_suit == trump_suit:
+        # if point value of trick is high enough, determine if "stächen" makes sense
+        if points_of_trick >= 11 and card_suit == trump_suit:
             trick = copy.deepcopy(obs.current_trick)
             trick[len([card for card in trick if card != -1])] = card
             highest_card, winner_player = highest_card_in_trick(trick, obs)

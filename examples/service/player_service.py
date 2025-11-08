@@ -7,8 +7,11 @@ Example how to use flask to create a service for one or more players
 """
 import logging
 
-from jass.service.player_service_app import PlayerServiceApp
 from jass.agents.agent_random_schieber import AgentRandomSchieber
+from jass.service.player_service_app import PlayerServiceApp
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger('player_service')
 
 
 def create_app():
@@ -35,6 +38,5 @@ def create_app():
 
 
 if __name__ == '__main__':
-   app = create_app()
-   app.run()
-
+    app = create_app()
+    app.run()
