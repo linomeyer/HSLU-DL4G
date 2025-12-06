@@ -32,11 +32,15 @@ def create_app():
     # app.config.from_pyfile('my_player_service.cfg', silent=False)
 
     # add some players
-    app.add_player('random', AgentRandomSchieber())
+    app.add_player('lino', AgentRandomSchieber())
+
+    @app.route('/lino')
+    def lino_route():
+        return "Player lino here"
 
     return app
 
 
 if __name__ == '__main__':
     app = create_app()
-    app.run()
+    app.run(host='0.0.0.0', port=8888)
