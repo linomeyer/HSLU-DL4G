@@ -1,7 +1,7 @@
 from jass.agents.agent_random_schieber import AgentRandomSchieber
 from jass.arena.arena import Arena
 
-from finals_agent import TournamentAgent
+from tournament_agent import TournamentAgent
 
 
 def main(nr_of_games):

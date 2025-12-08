@@ -6,9 +6,9 @@ from jass.game.game_sim import GameSim
 from jass.game.game_state import GameState
 from jass.game.game_util import *
 from jass.game.rule_schieber import RuleSchieber
-from tensorflow.python.keras.saving.save import load_model
+from keras.src.saving import load_model
 
-from ..util import *
+from jass_bot.util import *
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -89,7 +89,7 @@ class TournamentAgent(Agent):
         self._rule = RuleSchieber()
         self.n_simulations = n_simulations
         self.n_determinizations = n_determinizations
-        self.model = load_model("../data/trump_model.keras")
+        self.model = load_model("trump_model.keras")
 
     def action_trump(self, obs: GameObservation) -> int:
         hand = obs.hand
