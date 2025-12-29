@@ -3,7 +3,7 @@ import logging
 from flask import request
 from jass.service.player_service_app import PlayerServiceApp
 
-from rule_based_bot.rule_based_agent import RuleBasedAgent
+from fix_mcts_agent import FixMCTSAgent
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('player_service')
@@ -12,7 +12,7 @@ logger = logging.getLogger('player_service')
 def create_app():
     app = PlayerServiceApp('player_service')
 
-    app.add_player('rule', RuleBasedAgent())
+    app.add_player('rule', FixMCTSAgent())
 
     @app.before_request
     def log_request_info():

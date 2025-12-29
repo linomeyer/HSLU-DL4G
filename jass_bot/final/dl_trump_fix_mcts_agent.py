@@ -8,7 +8,7 @@ from jass.game.game_util import *
 from jass.game.rule_schieber import RuleSchieber
 from keras.src.saving import load_model
 
-from jass_bot.util import *
+from util import *
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -16,7 +16,6 @@ logger.setLevel(logging.DEBUG)
 
 def simulate_possible_hands(obs: GameObservation) -> np.ndarray:
     hands = play_hands(obs)
-
     return hands
 
 
@@ -65,7 +64,7 @@ def check_high_card(valid_card_indices, obs: GameObservation):
 
 def check_stabbing(valid_card_indices, obs: GameObservation):
     """
-    checks if stabbing "stäche" is worth it
+    checks if "stäche" is worth it
     """
     trump_suit = obs.trump
     points_of_trick = sum(calculate_point_value(card, trump_suit) for card in obs.current_trick if card != -1)
@@ -83,7 +82,7 @@ def check_stabbing(valid_card_indices, obs: GameObservation):
     return False, None
 
 
-class TournamentAgent(Agent):
+class DLTrumpFixMCTSAgent(Agent):
     def __init__(self, n_simulations=1, n_determinizations=90):
         super().__init__()
         self._rule = RuleSchieber()

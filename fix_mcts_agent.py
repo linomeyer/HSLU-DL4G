@@ -6,7 +6,7 @@ from jass.game.game_state import GameState
 from jass.game.game_util import *
 from jass.game.rule_schieber import RuleSchieber
 
-from ..util import *
+from util import *
 
 
 def simulate_possible_hands(obs: GameObservation) -> np.ndarray:
@@ -78,7 +78,7 @@ def check_stabbing(valid_card_indices, obs: GameObservation):
     return False, None
 
 
-class RuleBasedAgent(Agent):
+class FixMCTSAgent(Agent):
     def __init__(self, n_simulations=1, n_determinizations=90):
         super().__init__()
         self._rule = RuleSchieber()

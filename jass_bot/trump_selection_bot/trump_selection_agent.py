@@ -5,7 +5,7 @@ from jass.game.game_observation import GameObservation
 from jass.game.game_util import convert_one_hot_encoded_cards_to_int_encoded_list
 from jass.game.rule_schieber import RuleSchieber
 
-from ..util import calculate_trump_selection_score
+from util import calculate_trump_selection_score
 
 
 class TrumpSelectionAgent(Agent):

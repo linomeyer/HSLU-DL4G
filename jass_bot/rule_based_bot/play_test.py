@@ -1,13 +1,13 @@
 from jass.agents.agent_random_schieber import AgentRandomSchieber
 from jass.arena.arena import Arena
 
-from rule_based_agent import RuleBasedAgent
+from fix_mcts_agent import FixMCTSAgent
 
 
 def main(nr_of_games):
     arena = Arena(nr_games_to_play=nr_of_games, save_filename='playtest_games')
     player = AgentRandomSchieber()
-    my_player = RuleBasedAgent()
+    my_player = FixMCTSAgent()
 
     arena.set_players(my_player, player, my_player, player)
     print('Playing {} games'.format(arena.nr_games_to_play))
