@@ -83,7 +83,7 @@ def check_stabbing(valid_card_indices, obs: GameObservation):
 
 
 class DLTrumpFixMCTSAgent(Agent):
-    def __init__(self, n_simulations=1, n_determinizations=90):
+    def __init__(self, n_simulations=3, n_determinizations=90):
         super().__init__()
         self._rule = RuleSchieber()
         self.n_simulations = n_simulations
@@ -157,6 +157,7 @@ class DLTrumpFixMCTSAgent(Agent):
             scores = self._score_simulations(hands, obs, valid_card_indices)
             card_scores += scores
 
+        # choose the valid card with highest score
         best_card_index = np.argmax(card_scores)
         best_card = valid_card_indices[best_card_index]
 
@@ -179,9 +180,6 @@ class DLTrumpFixMCTSAgent(Agent):
                 # play out game randomly
                 while not simulation.is_done():
                     valid_cards = self._rule.get_valid_cards_from_obs(simulation.get_observation())
-                    # check if there are any valid cards
-                    if np.flatnonzero(valid_cards).size == 0:
-                        break
 
                     simulation.action_play_card(np.random.choice(np.flatnonzero(valid_cards)))
 

@@ -1,0 +1,97 @@
+= Jass-Bot Factsheet
+:author: DL4G Project
+:doctype: article
+:toc: left
+:toclevels: 3
+:icons: font
+
+== Überblick
+
+Der Jass-Bot ist ein intelligenter Agent für das Kartenspiel Jass.
+
+== Technologien und Methoden
+
+=== Deep Learning Modell für Trumpfwahl
+
+*Zweck:* Auswahl der optimalen Trumpffarbe zu Beginn einer Runde
+
+*Technologie:*
+
+* Keras/TensorFlow Neural Network
+* Sequential Model mit Dense Layers (64 → 32 → Output)
+* Trainiert auf historischen Spieldaten der Swisslos Jass Platform (`2018_10_18_trump.csv`)
+
+*Funktionsweise:*
+
+* Input: 37 Features (36 Karten + Vorhand-Information)
+* Output: Wahrscheinlichkeiten für 7 Kategorien
+** 4 Trumpffarben (Ecken, Herz, Schaufeln, Kreuz)
+** Obenabe
+** Undenufe
+** Schieben (Push)
+
+*Entscheidungslogik:*
+
+* Schieben bei Wahrscheinlichkeit > 80%
+* Sonst: Höchste Wahrscheinlichkeit unter den Trumpfarten
+
+=== Monte Carlo Tree Search (MCTS)
+
+*Zweck:* Auswahl der zu spielenden Karte während des Spiels
+
+*Parameter:*
+
+* `n_determinizations`: 90 (Anzahl verschiedener Handverteilungen)
+* `n_simulations`: 3 (Simulationen pro Handverteilung)
+
+*Funktionsweise:*
+
+. Simulation möglicher Handverteilungen der Gegner
+. Für jede gültige Karte: Durchführung von Spielsimulationen bis zum Ende
+. Züge sind zufällig aus allen validen Karten
+. Bewertung basierend auf erreichten Punkten des eigenen Teams
+. Auswahl der Karte mit der höchsten Bewertung
+
+=== Regelbasierte Eingriffe
+
+*Zweck:* Überspringen der MCTS bei klaren Situationen
+
+*Priorität 1 - "Stächen":*
+
+* Prüft, ob ein Stich mit Trumpf genommen werden sollte
+* Bedingung: Stich ist mindestens 11 Punkte wert
+* Nur wenn die Trumpfkarte anhand der jetzigen Spielsituation den Stich gewinnen würde
+
+*Priorität 2 - Höchste Karte:*
+
+* Prüft, ob man die garantiert höchste Karte hat
+* Spielt diese Karte direkt aus (ohne MCTS)
+
+*Priorität 3 - MCTS:*
+
+* Falls keine regelbasierten Eingriffe greifen
+* Monte Carlo Tree Search kommt zum Einsatz
+
+== Technischer Stack
+
+* *Programmiersprache:* Python 3.11.9
+* *Deep Learning:* Keras/TensorFlow
+* *Jass-Framework*
+* *Simulation:* GameSim für Spielverlauf-Simulationen
+* *Regel-Engine:* RuleSchieber für Jass-Regeln
+
+== Klassenhierarchie
+
+[source]
+----
+Agent
+  └── DLTrumpFixMCTSAgent
+       ├── action_trump() → Deep Learning
+       └── action_play_card() → Fix Rules + MCTS
+----
+
+== Performance-Charakteristiken
+
+* *Trumpfwahl:* Schnell (~ms), da nur ein Forward-Pass durch das Netzwerk
+* *Kartenwahl:* Langsamer (~Sekunden), abhängig von Anzahl simulations/determinizations
+* *Gesamtdauer:* Gesamtdauer eines Zuges ist maximal 10 Sekunden, da auf dem Jass-Tournier-Server nach Ablauf von 10 Sekunden ein Timeout geworfen wird.
