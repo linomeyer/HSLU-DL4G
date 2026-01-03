@@ -94,4 +94,5 @@ Agent
 
 * *Trumpfwahl:* Schnell (~ms), da nur ein Forward-Pass durch das Netzwerk
 * *Kartenwahl:* Langsamer (~Sekunden), abhängig von Anzahl simulations/determinizations
-* *Gesamtdauer:* Gesamtdauer eines Zuges ist maximal 10 Sekunden, da auf dem Jass-Tournier-Server nach Ablauf von 10 Sekunden ein Timeout geworfen wird.
+* *Einschränkung:* Gesamtdauer eines Zuges ist maximal 10 Sekunden, da auf dem Jass-Tournier-Server nach Ablauf von 10 Sekunden ein Timeout geworfen wird.
+* *Performance auf Server:* Anzahl simulations/determinizations für MCTS ist so eingestellt, dass die Zugdauer auf meinem Server möglichst nahe bei 10 Sekunden ist, die 10 Sekunden aber möglichst nie überschreitet.
